@@ -1,0 +1,181 @@
+```mermaid
+flowchart TD
+    subgraph Figure 1: Sources of stochasticity in LLM agent
+        A[Prompt / Input] -->|Ambiguity / variation| B[Input variance]
+        A -->|Noisy or partial data| C[Environment noise]
+        D[LLM model] -->|Sampling decisions| E[Sampling randomness]
+        D -->|Updated weights| F[Model drift]
+        B --> G[Prompt phrasing, user intent]
+        C --> H[External observations, sensor noise]
+        E --> I[Temperature, top-k, top-p]
+        F --> J[Fine-tuning, continual learning]
+    end
+
+    subgraph Agent Process
+        K[Agent policy / reasoning] --> L[Action selection]
+        E --> K
+        F --> K
+        B --> K
+        C --> K
+    end
+```
+
+```mermaid
+flowchart TD
+    subgraph Figure 2: Static Models vs Environment Learning
+        M[LLM Agent] --> N{Learning Strategy}
+        N -->|Static Model| O[Fixed Parameters]
+        N -->|Environment Learning| P[Adaptive Learning]
+        O --> Q[No real-time adaptation]
+        O --> R[Consistent behavior]
+        P --> S[Real-time environment updates]
+        P --> T[Dynamic behavior adjustment]
+        Q --> U[Limited contextual awareness]
+        R --> V[Predictable responses]
+        S --> W[Improved adaptation]
+        T --> X[Context-aware responses]
+        W --> Y[Better performance over time]
+        X --> Z[Enhanced decision making]
+
+        ```mermaid
+        flowchart LR
+            subgraph Figure 3: Reliability index vs Environnement model precision
+                A[Environment Model Precision] --> |Low precision| C[Low reliability]
+                A --> |Medium precision| D[Moderate reliability]
+                A --> |High precision| E[High reliability]
+                C --> B[Reliability Index]
+                D --> B
+                E --> B
+                F[Calibration & Validation] --> A
+                F --> B
+                G[Data Quality] --> B
+                H[Sensor / Environment Noise] -.-> A
+                I[Sampling randomness] -.-> B
+            end
+        ```
+        
+            ```mermaid
+            flowchart LR
+                subgraph Figure 4: Drift rate (alpha) vs Recovery rate (gamma)
+                    A[High alpha
+        Low gamma
+        Rapid drift, poor recovery]
+                    B[High alpha
+        High gamma
+        Fast drift, quick recovery (volatile)]
+                    C[Low alpha
+        Low gamma
+        Slow drift, slow recovery (stagnant)]
+                    D[Low alpha
+        High gamma
+        Stable, resilient system]
+                    Alpha([Drift rate (alpha) →]) --> A
+                    Alpha --> B
+                    Gamma([← Recovery rate (gamma)]) --> A
+                    Gamma --> C
+                    A --- B
+                    C --- D
+                    B --- D
+                end
+            ```
+    end
+```
+
+```mermaid
+flowchart TD
+        subgraph Figure 5: Drone trajectory prediction and intervention
+                D0[Drone / UAV] -->|Telemetry| S1[Sensors (GPS, IMU, Camera)]
+                S1 --> P1[Trajectory Predictor (ML model)]
+                P1 --> A1[Anomaly & Risk Detector]
+                A1 -->|Safe| C1[Continue mission]
+                A1 -->|Risk| I1[Intervention Planner]
+                I1 --> U1[Control Command Generator]
+                U1 --> D0
+                H1[Human Operator] -->|Override / Approve| I1
+                F1[Environment feedback] --> S1
+                P1 -->|Confidence score| M1[Decision threshold]
+                M1 --> A1
+        end
+```
+
+```mermaid
+flowchart TD
+    subgraph Figure 6: Shielded learning performance
+        Env[Environment / World] --> Learner[Policy Learner / Agent]
+        Learner --> Proposal[Proposed Action]
+        Proposal --> Shield[Safety Monitor / Shield]
+        Shield -->|allow| Execute[Execute Action]
+        Shield -->|modify| Modified[Modified Safe Action]
+        Modified --> Execute
+        Shield -->|block| Fallback[Fallback Controller]
+        Fallback --> Execute
+        Execute --> Env
+        Execute --> Reward[Reward / Outcome]
+        Reward --> Learner
+        Experience[Training Data / Replay Buffer] --> Learner
+        ShieldAdapt[Shield Adaptation & Constraints] -.-> Shield
+        Learner -->|policy updates| ShieldAdapt
+        Metrics[Metrics: safety_violations, return, regret, recovery_time] --> Dashboard[Evaluation Dashboard]
+        Reward --> Metrics
+        SafetyLog[Safety Violation Log] --> Metrics
+    end
+```
+
+```yaml
+# .agent.md - Drone Trajectory Prediction & Intervention Agent (draft)
+name: drone-interv-agent
+role: Autonomous drone safety assistant
+description: >
+    Predicts drone trajectories, detects anomalies, and plans interventions (control commands
+    or human alerts) when risk is detected.
+triggers:
+    - when telemetry shows deviation beyond threshold
+    - when predictor confidence < 0.6
+tools:
+    - telemetry_stream (required)
+    - trajectory_model (required)
+    - anomaly_detector (required)
+    - control_api (optional)
+    - human_alert (required)
+tool_preferences:
+    prefer: real-time telemetry and onboard models
+    avoid: purely simulated data for critical interventions
+persona: concise, safety-first, explainable
+scope:
+    - real-time trajectory prediction
+    - anomaly detection and intervention planning
+    - suggesting safe recovery commands and human-in-the-loop alerts
+usage_examples:
+    - "Predict next 10s trajectory and report confidence."
+    - "If collision risk > 0.3, propose control commands and alert operator."
+clarify:
+    - define acceptable risk thresholds and intervention authority (auto vs. require approval)
+iteration_notes:
+    - validate predictor on recorded flights
+    - tune thresholds and human override policies
+```
+
+```mermaid
+flowchart LR
+    subgraph Figure 10: Multi-agent chain reliability ("Broken telephone" effect)
+        A[Agent 1\n(original message)] -->|transmit| B[Agent 2\n(received)]
+        B -->|transmit with noise| C[Agent 3\n(received)]
+        C -->|...| D[Agent N\n(final received)]
+        A --> E[Ground truth / Source]
+        B -.->|information loss| L[Entropy / degradation]
+        C -.->|accumulated noise| L
+        D -.->|final distortion| L
+        L --> R[Reduced reliability / Broken telephone]
+
+        subgraph Mitigations
+            M1[Redundancy\n(multiple parallel agents)] --> B
+            M2[Verification\n(back-channels & checks)] --> A
+            M3[Consensus\n(majority voting / aggregation)] --> D
+        end
+        M1 --> S[Improved robustness]
+        M2 --> S
+        M3 --> S
+        S --> R
+    end
+```
+
